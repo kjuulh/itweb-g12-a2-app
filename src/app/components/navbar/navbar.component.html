@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <div class="flex-toolbar" fxLayoutAlign="space-between center" fxLayout="row">
+    <div>
+      Workout buddy
+    </div>
+    <div fxLayoutAlign="space-between center" fxLayout="row" fxLayoutGap="10px">
+      <div>
+        <button mat-button (click)="login()">
+          Login
+        </button>
+      </div>
+      <div>
+        <button mat-button (click)="register()">
+          Register
+        </button>
+      </div>
+      <div>
+        <button mat-button (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

@@ -1,0 +1,27 @@
+@import './theme';
+
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:600');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+
+@include mat-core();
+@include angular-material-theme($workout-spa-theme);
+
+/* You can add global styles to this file, and also import other style files */
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  color: #212121;
+  background-color: #f3f3f3;
+  font-family: mat-font-family($workout-spa-typography);
+  line-height: mat-line-height($workout-spa-typography, body-1);
+  font-size: mat-font-size($workout-spa-typography, body-1);
+  height: 100%;
+  margin: 0;
+}

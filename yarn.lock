@@ -151,7 +151,7 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/compiler-cli@~8.2.13":
+"@angular/compiler-cli@^8.2.13":
   version "8.2.13"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-8.2.13.tgz#c8f842e3873c9eadd6629f66d6156c94ae9cd522"
   integrity sha512-ryW2Kozx/oHJrtdeIhgZ24RIU7Za3YIOHS9EMCQ8xMo+ZlSI+t2zOlLAXzK4PVWEjuTtQlKbT0KqilgU0QsHJg==

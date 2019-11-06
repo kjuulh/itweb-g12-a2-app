@@ -2,6 +2,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor/error.interce
 import { JwtInterceptor } from './interceptors/jwt.interceptor/jwt.interceptor';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -14,15 +16,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoginPageComponent } from './pages/login/login.page';
 
 @NgModule({
-  declarations: [AppComponent, HomePageComponent, NavbarComponent],
+  declarations: [
+    AppComponent,
+    HomePageComponent,
+    NavbarComponent,
+    LoginPageComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
     FlexLayoutModule,
   ],
   providers: [

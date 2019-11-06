@@ -9,12 +9,14 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthenticationService {
+  private readonly userStorage = 'currentUser';
+
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem('currentUser')),
+      JSON.parse(localStorage.getItem(this.userStorage)),
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -28,7 +30,7 @@ export class AuthenticationService {
       .post<any>(`${environment.API_URL}/authenticate`, { email, password })
       .pipe(
         map(user => {
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem(this.userStorage, JSON.stringify(user));
           this.currentUserSubject.next(user);
           return user;
         }),
@@ -36,7 +38,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem(this.userStorage);
     this.currentUserSubject.next(null);
   }
 }

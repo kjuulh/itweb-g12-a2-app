@@ -1,0 +1,33 @@
+@import '../../../styles/styles';
+
+.container {
+  display: grid;
+  grid-template-areas: 'see create';
+  grid-template-columns: 3fr 2fr;
+  column-gap: 20px;
+  margin: 84px auto 0;
+  width: 100%;
+  max-width: 840px;
+
+  .see-workouts {
+    grid-area: see;
+  }
+
+  .create-workout {
+    grid-area: create;
+  }
+
+  .title {
+    color: mat-color($workout-spa-primary);
+    margin-bottom: 16px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    grid-template-areas:
+      'create'
+      'see';
+    grid-template-columns: 1fr;
+  }
+}

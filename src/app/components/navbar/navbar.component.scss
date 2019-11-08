@@ -1,7 +1,18 @@
-.fill-remaining-space {
-  flex: 1 1 auto;
+@import '../../../styles/styles.scss';
+
+mat-toolbar {
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  .nav-tool-items > * + * {
+    margin-left: 20px;
+  }
 }
 
-.flex-toolbar {
-  width: 100%;
+#logo {
+  color: mat-color($workout-spa-primary);
 }

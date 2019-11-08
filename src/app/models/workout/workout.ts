@@ -4,5 +4,5 @@ export class Workout {
   name: string;
   description: string;
   ownerId: string;
-  exerciseIds: string[];
+  exerciseIds?: string[];
 }

@@ -1,24 +1,46 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form>
-      <table cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field>
-              <input
-                matInput
-                placeholder="email"
-                [(ngModel)]="email"
-                name="email"
-                required
-              />
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>
+        Log In
+      </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+      <div *ngIf="error" class="alert">
+        {{ error }}
+      </div>
+      <mat-card-content class="form">
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="Email"
+            type="email"
+            formControlName="email"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="!loginForm.hasError('email')">
+            Please a valid email
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="Password"
+            type="password"
+            formControlName="password"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="!loginForm.hasError('password')">
+            Please a valid password
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button color="accent" class="btn-block" type="submit">
+        Log In
+      </button>
+      <a class="register" mat-button routerLink="/register">
+        Don't have an account yet?
+      </a>
     </form>
-  </mat-card-content>
-</mat-card>
+  </mat-card>
+</div>

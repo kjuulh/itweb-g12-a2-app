@@ -1,24 +1,32 @@
-<mat-toolbar color="primary">
-  <div class="flex-toolbar" fxLayoutAlign="space-between center" fxLayout="row">
-    <div>
-      Workout buddy
-    </div>
-    <div fxLayoutAlign="space-between center" fxLayout="row" fxLayoutGap="10px">
-      <div>
-        <button mat-button (click)="login()">
-          Login
-        </button>
-      </div>
-      <div>
-        <button mat-button (click)="register()">
-          Register
-        </button>
-      </div>
-      <div>
-        <button mat-button (click)="logout()">
-          Logout
-        </button>
-      </div>
-    </div>
+<mat-toolbar color="background">
+  <div>
+    <a id="logo" routerLink="">Workout Buddy</a>
   </div>
+  <span class="nav-tool-items">
+    <a mat-button routerLink="workouts" routerLinkActive="active">Workouts</a>
+    <a
+      *ngIf="!auth.currentUserValue"
+      mat-button
+      routerLink="login"
+      routerLinkActive="active"
+      >Log in</a
+    >
+    <a
+      *ngIf="!auth.currentUserValue"
+      mat-button
+      color="primary"
+      mat-raised-button
+      routerLink="register"
+      routerLinkActive="active"
+      >Register</a
+    >
+    <button
+      *ngIf="auth.currentUserValue"
+      mat-button
+      color="primary"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+  </span>
 </mat-toolbar>

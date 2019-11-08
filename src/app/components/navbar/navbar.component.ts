@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service/authentication.service';
 import { MatButtonModule } from '@angular/material/button';
 import { Component, OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,22 +10,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public auth: AuthenticationService) {}
 
   ngOnInit() {}
 
-  login() {
-    console.log('Logging in');
-    this.router.navigate(['/login']);
-  }
-
   logout() {
-    console.log('Logging out');
-    this.router.navigate(['/logout']);
-  }
-
-  register() {
-    console.log('Registering');
-    this.router.navigate(['/login']);
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }

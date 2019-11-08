@@ -37,6 +37,23 @@ export class AuthenticationService {
       );
   }
 
+  register(userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }) {
+    return this.http
+      .post<any>(`${environment.API_URL}/register`, userData)
+      .pipe(
+        map(user => {
+          localStorage.setItem(this.userStorage, JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return user;
+        }),
+      );
+  }
+
   logout() {
     localStorage.removeItem(this.userStorage);
     this.currentUserSubject.next(null);

@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="create-workout full-width">
+    <div *ngIf="auth.currentUserValue">
+      <mat-card class="title">
+        <a mat-button routerLink="/workout/create">
+          Create a workout
+        </a>
+      </mat-card>
+      <app-create-workout></app-create-workout>
+    </div>
+    <mat-card *ngIf="!auth.currentUserValue">
+      <a
+        routerLink="login"
+        mat-button
+        mat-raised-button
+        color="primary"
+        class="full-width"
+        >Login to create a workout</a
+      >
+    </mat-card>
+  </div>
+  <div class="see-workouts full-width">
+    <app-workouts></app-workouts>
+  </div>
+</div>

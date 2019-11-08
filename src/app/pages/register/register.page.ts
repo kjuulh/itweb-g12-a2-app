@@ -1,17 +1,17 @@
-import { AuthenticationService } from './../../services/authentication.service/authentication.service';
 import { AuthenticationErrorStateMatcher } from './../../helpers/matchers/authentication.error.state.matcher';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from './../../services/authentication.service/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register-page',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class LoginPageComponent implements OnInit {
-  loginForm: FormGroup;
+export class RegisterPageComponent implements OnInit {
+  registerForm: FormGroup;
   loading = false;
   submitted = false;
   error = '';
@@ -29,26 +29,28 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    this.registerForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
     });
   }
 
-  onSubmit(userData: { email: string; password: string }) {
+  onSubmit(userData) {
     this.submitted = true;
 
-    if (this.loginForm.invalid) {
+    if (this.registerForm.invalid) {
       return;
     }
 
     this.loading = true;
     this.auth
-      .login(userData.email, userData.password)
+      .register(userData)
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/login']);
         },
         error => {
           this.error = error;

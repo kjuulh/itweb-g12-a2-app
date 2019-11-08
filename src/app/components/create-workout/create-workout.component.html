@@ -1,0 +1,252 @@
+<mat-accordion class="accordion">
+  <mat-expansion-panel
+    id="0"
+    [expanded]="step === 0"
+    (opened)="setStep(0)"
+    hideToggle
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Workout Title
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      Write a meaningful title for your workout
+    </mat-panel-description>
+    <mat-form-field class="full-width">
+      <input
+        type="text"
+        matInput
+        placeholder="Title"
+        class="full-width"
+        [(ngModel)]="title"
+      />
+    </mat-form-field>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel
+    id="1"
+    [expanded]="step === 1"
+    (opened)="setStep(1)"
+    hideToggle
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Description
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      Write a meaningful description for your workout
+    </mat-panel-description>
+    <mat-form-field class="full-width">
+      <input
+        type="text"
+        matInput
+        placeholder="Description"
+        class="full-width"
+        [(ngModel)]="description"
+      />
+    </mat-form-field>
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <div *ngFor="let exercise of exercises; index as i">
+    <mat-expansion-panel
+      accordion="accordion"
+      id="i + 2"
+      [expanded]="step === i + 2"
+      (opened)="setStep(i + 2); setCurrentExercise(exercise)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Exercise {{ i + 1 }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        Update an exercise
+      </mat-panel-description>
+      <form
+        [formGroup]="currentExerciseForm"
+        (ngSubmit)="updateExercise(i, currentExerciseForm)"
+      >
+        <mat-form-field class="full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Type"
+            class="full-width"
+            formControlName="type"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="!currentExerciseForm.hasError('type')">
+            Please a type eg. "Squats"
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input
+            type="text"
+            matInput
+            placeholder="Description"
+            class="full-width"
+            formControlName="description"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="!currentExerciseForm.hasError('description')">
+            Please a description
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input
+            type="number"
+            min="1"
+            matInput
+            placeholder="Set"
+            class="full-width"
+            formControlName="sets"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error *ngIf="!currentExerciseForm.hasError('sets')">
+            Please a positive number of sets
+          </mat-error>
+        </mat-form-field>
+        <mat-radio-group
+          aria-label="Select either repetitions or time"
+          formControlName="mode"
+        >
+          <mat-radio-button value="Repetitions" checked
+            >Repetitions</mat-radio-button
+          >
+          <mat-radio-button value="Duration">Duration</mat-radio-button>
+        </mat-radio-group>
+        <mat-form-field class="full-width">
+          <input
+            type="number"
+            min="1"
+            matInput
+            placeholder="{{ currentExerciseForm.controls['mode'].value }}"
+            class="full-width"
+            formControlName="modeValue"
+            [errorStateMatcher]="matcher"
+          /><mat-error
+            *ngIf="
+              !currentExerciseForm.hasError(
+                currentExerciseForm.controls['mode'].value.toLowerCase()
+              )
+            "
+          >
+            Please a positive number of
+            {{ currentExerciseForm.controls['mode'].value.toLowerCase() }}
+          </mat-error>
+        </mat-form-field>
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">Previous</button>
+          <button mat-button color="primary" type="submit">Next</button>
+        </mat-action-row>
+      </form>
+    </mat-expansion-panel>
+  </div>
+
+  <mat-expansion-panel
+    id="exercises.length + 2"
+    [expanded]="step === exercises.length + 2"
+    (opened)="setStep(exercises.length + 2)"
+    hideToggle
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Exercise {{ exercises.length + 1 }} </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-panel-description>
+      Add an exercise to your workout
+    </mat-panel-description>
+    <form [formGroup]="addExerciseForm" (ngSubmit)="add(addExerciseForm)">
+      <mat-form-field class="full-width">
+        <input
+          type="text"
+          matInput
+          placeholder="Type"
+          class="full-width"
+          formControlName="type"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="!addExerciseForm.hasError('type')">
+          Please a type eg. "Squats"
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input
+          type="text"
+          matInput
+          placeholder="Description"
+          class="full-width"
+          formControlName="description"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="!addExerciseForm.hasError('description')">
+          Please a description
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input
+          type="number"
+          min="1"
+          matInput
+          placeholder="Set"
+          class="full-width"
+          formControlName="sets"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="!addExerciseForm.hasError('sets')">
+          Please a positive number of sets
+        </mat-error>
+      </mat-form-field>
+      <mat-radio-group
+        aria-label="Select either repetitions or time"
+        formControlName="mode"
+      >
+        <mat-radio-button value="Repetitions" checked
+          >Repetitions</mat-radio-button
+        >
+        <mat-radio-button value="Duration">Duration</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field class="full-width">
+        <input
+          type="number"
+          min="1"
+          matInput
+          placeholder="{{ addExerciseForm.controls['mode'].value }}"
+          class="full-width"
+          formControlName="modeValue"
+          [errorStateMatcher]="matcher"
+        /><mat-error
+          *ngIf="
+            !addExerciseForm.hasError(
+              addExerciseForm.controls['mode'].value.toLowerCase()
+            )
+          "
+        >
+          Please a positive number of
+          {{ addExerciseForm.controls['mode'].value.toLowerCase() }}
+        </mat-error>
+      </mat-form-field>
+      <mat-action-row>
+        <button
+          *ngIf="exercises.length > 0"
+          mat-stroked-button
+          color="primary"
+          (click)="submit()"
+        >
+          Finish
+        </button>
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+        <button mat-button color="primary" type="submit">
+          Add
+        </button>
+      </mat-action-row>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>

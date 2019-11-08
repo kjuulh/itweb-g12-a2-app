@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/authentication.service/authentication.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePageComponent implements OnInit {
-  constructor() {}
+  constructor(public auth: AuthenticationService) {}
 
   ngOnInit() {}
 }

@@ -1,4 +1,5 @@
-@import './theme';
+//@import './theme';
+@import './theme-dark';
 
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web:600');
 @import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
@@ -17,11 +18,15 @@ html {
 }
 
 body {
-  color: #212121;
-  background-color: #f3f3f3;
+  color: #fff;
+  background-color: #232323;
   font-family: mat-font-family($workout-spa-typography);
   line-height: mat-line-height($workout-spa-typography, body-1);
   font-size: mat-font-size($workout-spa-typography, body-1);
   height: 100%;
   margin: 0;
+}
+
+.full-width {
+  width: 100%;
 }

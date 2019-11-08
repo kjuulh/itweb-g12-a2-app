@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-card>
+    <ng-container *ngIf="isOwner; else isNotOwner">
+      <h2>Edit workout</h2>
+    </ng-container>
+    <ng-template #isNotOwner>
+      <h2>Workout</h2>
+    </ng-template>
+  </mat-card>
+  <br />
+
+  <div *ngIf="!loading">
+    <app-create-workout
+      title="{{ workout.name }}"
+      description="{{ workout.description }}"
+      exercises="{{ exercises }}"
+    ></app-create-workout>
+  </div>
+  <div *ngIf="loading" class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

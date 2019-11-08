@@ -1,0 +1,15 @@
+@import '../../../styles/styles';
+
+.container {
+  margin: 84px auto 0;
+  width: 100%;
+  max-width: 840px;
+
+  h2 {
+    color: mat-color($workout-spa-primary);
+  }
+
+  .spinner > mat-spinner {
+    margin: 20px auto;
+  }
+}

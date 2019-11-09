@@ -209,6 +209,7 @@ export class CreateWorkoutComponent implements OnInit {
                 ? null
                 : workout.exerciseIds.push(e._id),
             );
+            this.alertService.success('Successfully added workout.');
             this.loading = false;
           },
           err => {

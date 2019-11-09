@@ -1,3 +1,5 @@
+import { AlertService } from './../../services/alert/alert.service';
+import { ExerciseService } from './../../services/exercise/exercise.service';
 import { WorkoutService } from './../../services/workout.service/workout.service';
 import { AuthenticationService } from 'src/app/services/authentication.service/authentication.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,7 +15,6 @@ import { first } from 'rxjs/operators';
 })
 export class EditWorkoutPageComponent implements OnInit {
   workout: Workout;
-  exercises: Exercise[];
   isOwner = false;
 
   loading: boolean;
@@ -24,6 +25,8 @@ export class EditWorkoutPageComponent implements OnInit {
     private router: Router,
     private auth: AuthenticationService,
     private workoutService: WorkoutService,
+    private exerciseService: ExerciseService,
+    private alertService: AlertService,
   ) {}
 
   ngOnInit() {
@@ -35,10 +38,24 @@ export class EditWorkoutPageComponent implements OnInit {
       .subscribe(
         data => {
           this.workout = data;
-          console.log(this.auth.currentUserValue.id);
-          console.log(this.workout.ownerId);
-          this.isOwner = this.auth.currentUserValue.id === this.workout.ownerId;
-          this.loading = false;
+          if (this.auth.currentUserValue) {
+            this.isOwner =
+              this.auth.currentUserValue.id === this.workout.ownerId;
+          }
+
+          this.exerciseService
+            .getByWorkout(this.workout._id)
+            .pipe(first())
+            .subscribe(
+              d => {
+                this.workout.exercises = d;
+                this.loading = false;
+              },
+              err => {
+                this.alertService.error(err);
+                this.loading = false;
+              },
+            );
         },
         error => {
           this.error = error;

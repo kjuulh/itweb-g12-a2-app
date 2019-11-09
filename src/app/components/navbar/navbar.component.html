@@ -3,6 +3,7 @@
     <a id="logo" routerLink="">Workout Buddy</a>
   </div>
   <span class="nav-tool-items">
+    <a *ngIf="auth.currentUserValue" mat-button routerLink="logs">Logs</a>
     <a mat-button routerLink="workouts" routerLinkActive="active">Workouts</a>
     <a
       *ngIf="!auth.currentUserValue"

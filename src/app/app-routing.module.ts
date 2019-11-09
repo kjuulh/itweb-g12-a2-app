@@ -1,3 +1,6 @@
+import { ShowLogsComponent } from './pages/show-logs/show-logs.component';
+import { LogWorkoutPageComponent } from './pages/log-workout-page/log-workout-page.component';
+import { AuthGuard } from './guards/auth.guard.service';
 import { EditWorkoutPageComponent } from './pages/edit-workout-page/edit-workout-page.component';
 import { CreateWorkoutPageComponent } from './pages/create-workout-page/create-workout-page.component';
 import { WorkoutsPageComponent } from './pages/workouts/workouts.page';
@@ -30,12 +33,22 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateWorkoutPageComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: ':workoutId/log',
+        component: LogWorkoutPageComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: ':workoutId',
         component: EditWorkoutPageComponent,
       },
     ],
+  },
+  {
+    path: 'logs',
+    component: ShowLogsComponent,
   },
   {
     path: '**',

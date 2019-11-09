@@ -1,0 +1,23 @@
+<mat-expansion-panel [expanded]="step === i" (opened)="setStep(i)" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ workout.name }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-panel-description>
+    {{ workout.description }}
+  </mat-panel-description>
+  <br />
+  <div *ngFor="let exercise of workout.exercises">
+    <app-panel-exercise [exercise]="exercise"></app-panel-exercise>
+  </div>
+  <mat-action-row>
+    <a mat-button [routerLink]="['/workout/', workout._id]">Open</a>
+    <button *ngIf="step !== 0" mat-button color="warn" (click)="prevStep()">
+      Previous
+    </button>
+    <button mat-button color="primary" (click)="nextStep()">
+      Next
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>

@@ -1,0 +1,13 @@
+@import '../../../styles/styles';
+
+.exercise-bg {
+  background-color: #232323;
+}
+
+.exercise-content {
+  padding-left: 30px;
+}
+
+.accent-color {
+  color: mat-color($workout-spa-primary);
+}

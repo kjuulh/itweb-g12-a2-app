@@ -24,6 +24,12 @@ import { CreateWorkoutComponent } from './components/create-workout/create-worko
 import { CreateWorkoutPageComponent } from './pages/create-workout-page/create-workout-page.component';
 import { EditWorkoutPageComponent } from './pages/edit-workout-page/edit-workout-page.component';
 import { PanelExerciseComponent } from './components/panel-exercise/panel-exercise.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { ErrorSnackBarComponent } from './components/error-snack-bar/error-snack-bar.component';
+import { SuccessSnackBarComponent } from './components/success-snack-bar/success-snack-bar.component';
+import { WorkoutComponent } from './components/workout/workout.component';
+import { LogWorkoutPageComponent } from './pages/log-workout-page/log-workout-page.component';
+import { ShowLogsComponent } from './pages/show-logs/show-logs.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +44,12 @@ import { PanelExerciseComponent } from './components/panel-exercise/panel-exerci
     CreateWorkoutPageComponent,
     EditWorkoutPageComponent,
     PanelExerciseComponent,
+    AlertComponent,
+    ErrorSnackBarComponent,
+    SuccessSnackBarComponent,
+    WorkoutComponent,
+    LogWorkoutPageComponent,
+    ShowLogsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +61,7 @@ import { PanelExerciseComponent } from './components/panel-exercise/panel-exerci
     HttpClientModule,
     ReactiveFormsModule,
   ],
+  entryComponents: [ErrorSnackBarComponent, SuccessSnackBarComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

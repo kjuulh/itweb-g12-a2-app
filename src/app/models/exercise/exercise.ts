@@ -1,7 +1,7 @@
 export class Exercise {
-  id?: string;
+  _id?: string;
   workoutId?: string;
-  type: string;
+  name: string;
   description: string;
   sets: number;
   reps?: number;

@@ -37,6 +37,11 @@ $workout-spa-primary: map-get(
   $key: primary,
 );
 
+$workout-spa-warn: map-get(
+  $map: $workout-spa-theme,
+  $key: warn,
+);
+
 $workout-spa-typography: mat-typography-config();
 
 // Include theme styles for core and each component used in your app.

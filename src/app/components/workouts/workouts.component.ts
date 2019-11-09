@@ -1,3 +1,5 @@
+import { AlertService } from './../../services/alert/alert.service';
+import { ExerciseService } from './../../services/exercise/exercise.service';
 import { WorkoutService } from './../../services/workout.service/workout.service';
 import { AuthenticationService } from './../../services/authentication.service/authentication.service';
 import { Component, OnInit, Input } from '@angular/core';
@@ -11,7 +13,7 @@ import { first } from 'rxjs/operators';
 })
 export class WorkoutsComponent implements OnInit {
   loading = false;
-  workouts: Workout[];
+  workouts: Workout[] = [];
   step = 0;
   error: any;
   @Input()
@@ -20,7 +22,13 @@ export class WorkoutsComponent implements OnInit {
   constructor(
     public auth: AuthenticationService,
     private workoutService: WorkoutService,
+    private exerciseService: ExerciseService,
+    private alertService: AlertService,
   ) {}
+
+  stepChanged($event) {
+    this.step = $event;
+  }
 
   ngOnInit() {
     this.loading = true;
@@ -31,11 +39,27 @@ export class WorkoutsComponent implements OnInit {
         data => {
           if (this.mine) {
             this.workouts = data.filter(
-              d => d.ownerId === this.auth.currentUserValue.id,
+              d => d.ownerId == this.auth.currentUserValue.id,
             );
+          } else {
+            this.workouts = data;
           }
-          this.workouts = data;
-          this.loading = false;
+
+          this.workouts.forEach((workout, index) => {
+            this.exerciseService
+              .getByWorkout(workout._id)
+              .pipe(first())
+              .subscribe(
+                data => {
+                  this.workouts[index].exercises = data;
+                  this.loading = false;
+                },
+                err => {
+                  this.alertService.error(err);
+                  this.loading = false;
+                },
+              );
+          });
         },
         error => {
           this.error = error;

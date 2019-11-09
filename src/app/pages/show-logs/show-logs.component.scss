@@ -1,0 +1,35 @@
+@import '../../../styles/styles';
+
+.container {
+  margin: 84px auto 0;
+  width: 100%;
+  max-width: 840px;
+
+  .log-exercise {
+    background-color: #232323;
+  }
+
+  .log-session-date > span {
+    color: mat-color($workout-spa-primary);
+  }
+
+  .log-exercise-type {
+    font-size: 18px;
+
+    span {
+      color: mat-color($workout-spa-primary);
+    }
+  }
+
+  .log-exercise-content {
+    padding-left: 28px;
+
+    span {
+      color: mat-color($workout-spa-primary);
+    }
+  }
+}
+
+.spinner {
+  margin: 0 auto;
+}

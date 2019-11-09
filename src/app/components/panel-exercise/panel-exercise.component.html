@@ -1,1 +1,22 @@
-<p>panel-exercise works!</p>
+<mat-card class="exercise-bg">
+  <mat-card-header>
+    <mat-card-title>
+      <span class="accent-color">Type: </span>{{ exercise.name }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      <span class="accent-color">Description: </span>{{ exercise.description }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="exercise-content">
+    <div><span class="accent-color">Sets: </span>{{ exercise.sets }}</div>
+    <div>
+      <div *ngIf="exercise.time">
+        <span class="accent-color">Duration: </span>{{ exercise.time }}
+      </div>
+      <div *ngIf="exercise.reps">
+        <span class="accent-color">Repetitions: </span>{{ exercise.reps }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br />

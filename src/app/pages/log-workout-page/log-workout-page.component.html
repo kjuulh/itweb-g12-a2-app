@@ -1,0 +1,66 @@
+<div class="container">
+  <div *ngIf="!loading">
+    <div class="root">
+      <div class="left">
+        <app-workout [workout]="workout"></app-workout>
+      </div>
+      <div class="right">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="log-workout-title">
+              Log activity
+            </mat-card-title>
+          </mat-card-header>
+
+          <form [formGroup]="logForm" (ngSubmit)="submitLog(logForm)">
+            <mat-card-content class="log-workout-content">
+              <div class="log-date">
+                <mat-form-field class="full-width">
+                  <input
+                    matInput
+                    [matDatepicker]="datePicker"
+                    placeholder="Pick a date"
+                    [errorStateMatcher]="matcher"
+                    formControlName="date"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="datePicker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+                <div *ngFor="let exercise of workout.exercises; index as i">
+                  <mat-card class="log-exercise-card">
+                    <mat-form-field class="full-width">
+                      <textarea
+                        matInput
+                        rows="4"
+                        placeholder="Exercise {{ exercise.name }}"
+                        [errorStateMatcher]="matcher"
+                        [formControlName]="'log' + exercise._id"
+                      ></textarea>
+                    </mat-form-field>
+                  </mat-card>
+                  <br />
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-action-row>
+              <button
+                mat-stroked-button
+                color="primary"
+                class="log-workout-submit"
+                type="submit"
+              >
+                Submit log
+              </button>
+            </mat-action-row>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

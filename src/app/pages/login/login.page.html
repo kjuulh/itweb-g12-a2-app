@@ -6,9 +6,6 @@
       </mat-card-title>
     </mat-card-header>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-      <div *ngIf="error" class="alert">
-        {{ error }}
-      </div>
       <mat-card-content class="form">
         <mat-form-field class="full-width">
           <input

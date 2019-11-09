@@ -30,3 +30,13 @@ body {
 .full-width {
   width: 100%;
 }
+
+.snackbar-success {
+  background: mat-color($workout-spa-primary);
+  color: white;
+}
+
+.snackbar-error {
+  background: mat-color($workout-spa-warn);
+  color: white;
+}

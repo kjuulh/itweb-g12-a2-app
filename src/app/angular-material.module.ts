@@ -22,6 +22,7 @@ import {
   MatPaginatorModule,
   MatExpansionModule,
   MatProgressSpinnerModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -47,6 +48,7 @@ import {
     MatPaginatorModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatCardModule,
@@ -68,6 +70,7 @@ import {
     MatPaginatorModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   providers: [MatDatepickerModule],
 })

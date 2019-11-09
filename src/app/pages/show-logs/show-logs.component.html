@@ -1,0 +1,33 @@
+<div class="container">
+  <div *ngIf="loading">
+    <mat-spinner class="spinner"></mat-spinner>
+  </div>
+  <div *ngIf="!loading">
+    <div *ngFor="let log of logs">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title class="log-session-date">
+            <span>Date: </span>{{ log[0].date | date: 'short' }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let exercise of log">
+            <mat-card class="log-exercise">
+              <mat-card-header>
+                <mat-card-title class="log-exercise-type">
+                  <span>Exercise: </span>{{ exercise.exerciseName }}
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="log-exercise-content">
+                <div>
+                  <p><span>Comment: </span> {{ exercise.content }}</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <br />
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

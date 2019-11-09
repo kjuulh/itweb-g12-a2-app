@@ -1,0 +1,46 @@
+@import '../../../styles/styles';
+
+.container {
+  margin: 84px auto 0;
+  width: 100%;
+  max-width: 840px;
+
+  .log-workout-title {
+    color: mat-color($workout-spa-primary);
+  }
+
+  .root {
+    display: grid;
+    grid-template-areas: 'left right';
+    grid-template-columns: 2fr 3fr;
+    column-gap: 16px;
+
+    .left {
+      grid-area: left;
+    }
+
+    .right {
+      grid-area: right;
+    }
+  }
+
+  .log-workout-content {
+    padding-left: 28px;
+  }
+
+  .log-exercise-card {
+    background-color: #232323;
+  }
+
+  .log-workout-submit {
+    border-color: mat-color($workout-spa-primary);
+  }
+
+  mat-spinner {
+    margin: 20px auto;
+  }
+}
+
+.full-width {
+  width: 100%;
+}

@@ -1,8 +1,9 @@
+import { AlertService } from './../../services/alert/alert.service';
 import { AuthenticationService } from './../../services/authentication.service/authentication.service';
 import { AuthenticationErrorStateMatcher } from './../../helpers/matchers/authentication.error.state.matcher';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -17,11 +18,14 @@ export class LoginPageComponent implements OnInit {
   error = '';
 
   matcher = new AuthenticationErrorStateMatcher();
+  returnUrl: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthenticationService,
+    private route: ActivatedRoute,
     private router: Router,
+    private alertService: AlertService,
   ) {
     if (this.auth.currentUserValue) {
       this.router.navigate(['/']);
@@ -33,6 +37,8 @@ export class LoginPageComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   onSubmit(userData: { email: string; password: string }) {
@@ -48,12 +54,12 @@ export class LoginPageComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate(['/']);
+          this.alertService.success("You've logged in", true);
+          this.router.navigate([this.returnUrl]);
         },
-        error => {
-          this.error = error;
+        (error: any) => {
           this.loading = false;
-          console.log(error);
+          this.alertService.error(error);
         },
       );
   }

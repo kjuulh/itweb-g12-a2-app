@@ -1,3 +1,5 @@
+import { Exercise } from '../exercise/exercise';
+
 export class Workout {
   created?: string;
   _id?: string;
@@ -5,4 +7,5 @@ export class Workout {
   description: string;
   ownerId: string;
   exerciseIds?: string[];
+  exercises?: Exercise[];
 }

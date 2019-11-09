@@ -1,3 +1,6 @@
+import { Router } from '@angular/router';
+import { ExerciseService } from './../../services/exercise/exercise.service';
+import { AlertService } from './../../services/alert/alert.service';
 import { AuthenticationService } from 'src/app/services/authentication.service/authentication.service';
 import { Workout } from './../../models/workout/workout';
 import { WorkoutService } from './../../services/workout.service/workout.service';
@@ -7,6 +10,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Exercise } from './../../models/exercise/exercise';
 import { Component, OnInit, Input } from '@angular/core';
 import { first } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-create-workout',
@@ -21,6 +25,8 @@ export class CreateWorkoutComponent implements OnInit {
   @Input()
   description: string;
   @Input()
+  workoutId = '';
+  @Input()
   exercises: Exercise[] = [];
 
   addExerciseForm: FormGroup;
@@ -28,11 +34,15 @@ export class CreateWorkoutComponent implements OnInit {
   matcher = new AuthenticationErrorStateMatcher();
   error: any;
   loading = false;
+  currentExercise: Exercise;
 
   constructor(
     private formBuilder: FormBuilder,
     private workoutService: WorkoutService,
+    private exerciseService: ExerciseService,
     private auth: AuthenticationService,
+    private alertService: AlertService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -58,8 +68,9 @@ export class CreateWorkoutComponent implements OnInit {
   }
 
   setCurrentExercise(exerciseData: Exercise) {
+    this.currentExercise = exerciseData;
     this.currentExerciseForm = this.formBuilder.group({
-      type: [exerciseData.type, Validators.required],
+      type: [exerciseData.name, Validators.required],
       description: [exerciseData.description, Validators.required],
       sets: [exerciseData.sets, [Validators.required, Validators.min(1)]],
       mode: [exerciseData.reps !== 0 ? 'Repetitions' : 'Duration'],
@@ -78,17 +89,19 @@ export class CreateWorkoutComponent implements OnInit {
     const exerciseData = exerciseEvent.value;
 
     this.exercises[index] = {
-      type: exerciseData.type,
+      _id: this.currentExercise._id,
+      workoutId: this.workoutId,
+      name: exerciseData.type,
       description: exerciseData.description,
       sets: exerciseData.sets,
       reps:
         exerciseData.mode.toLowerCase() === 'repetitions'
           ? exerciseData.modeValue
-          : 0,
+          : undefined,
       time:
         exerciseData.mode.toLowerCase() === 'duration'
           ? exerciseData.modeValue
-          : 0,
+          : undefined,
     } as Exercise;
     this.initialForm();
     this.step++;
@@ -114,7 +127,7 @@ export class CreateWorkoutComponent implements OnInit {
     const exerciseData = exerciseEvent.value;
 
     this.exercises.push({
-      type: exerciseData.type,
+      name: exerciseData.type,
       description: exerciseData.description,
       sets: exerciseData.sets,
       reps:
@@ -131,26 +144,79 @@ export class CreateWorkoutComponent implements OnInit {
   }
 
   submit() {
-    console.log('Finished');
+    if (!this.auth.currentUserValue) {
+      this.alertService.error('You need to be logged in to perfom this action');
+      return;
+    }
+
     const workout: Workout = {
-      ownerId: this.auth.currentUserValue.id,
+      ownerId: this.auth.currentUserValue.id || '',
       name: this.title,
       description: this.description,
+      exercises: this.exercises,
     };
     this.loading = true;
-    this.workoutService
-      .create(workout)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log(data);
-          // Add exercises now.
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-          console.log(error);
-        },
-      );
+
+    if (this.workoutId == '') {
+      this.workoutService
+        .create(workout)
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.addOrUpdateExercises(data);
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+            this.alertService.error(error, true);
+          },
+        );
+    } else {
+      workout._id = this.workoutId;
+      this.workoutService
+        .update(workout)
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.addOrUpdateExercises(data);
+          },
+          error => {
+            this.error = error;
+            this.loading = false;
+            this.alertService.error(error, true);
+          },
+        );
+    }
+  }
+
+  addOrUpdateExercises(workout: Workout) {
+    this.exercises.forEach(exercise => {
+      const calls = [];
+
+      if (exercise._id && workout.exerciseIds.find(e => e == exercise._id)) {
+        exercise.workoutId = workout._id;
+        calls.push(this.exerciseService.update(workout._id, exercise));
+      } else {
+        exercise.workoutId = workout._id;
+        calls.push(this.exerciseService.addToWorkout(workout._id, exercise));
+      }
+
+      forkJoin(calls)
+        .pipe(first())
+        .subscribe(
+          (d: Exercise[]) => {
+            d.forEach(e =>
+              workout.exerciseIds.find(ex => ex == e._id)
+                ? null
+                : workout.exerciseIds.push(e._id),
+            );
+            this.loading = false;
+          },
+          err => {
+            this.alertService.error(err);
+            this.loading = false;
+          },
+        );
+    });
   }
 }

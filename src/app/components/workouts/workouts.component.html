@@ -1,8 +1,30 @@
 <div>
   <div *ngIf="!loading">
+    <div *ngIf="workouts.length === 0">
+      <mat-card class="no-workouts">
+        <mat-card-header>
+          <mat-card-title class="title">
+            You currently don't have any workouts.
+          </mat-card-title>
+          <mat-card-subtitle>
+            To add some, login and create one or search for other people's
+            workouts
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <a mat-button routerLink="/workout/create">Create Workout</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
     <mat-accordion>
       <div *ngFor="let workout of workouts; index as i">
-        <mat-expansion-panel
+        <app-workout
+          [workout]="workout"
+          [(step)]="step"
+          (subscribe)="stepChanged($event)"
+        >
+        </app-workout>
+        <!-- <mat-expansion-panel
           [expanded]="step === i"
           (opened)="setStep(i)"
           hideToggle
@@ -15,8 +37,9 @@
           <mat-panel-description>
             {{ workout.description }}
           </mat-panel-description>
-          <div *ngFor="let exerciseId of workout.exerciseIds">
-            <app-panel-exercise exerciseId="exerciseId"></app-panel-exercise>
+          <br />
+          <div *ngFor="let exercise of workout.exercises">
+            <app-panel-exercise [exercise]="exercise"></app-panel-exercise>
           </div>
           <mat-action-row>
             <a mat-button [routerLink]="['/workout/', workout._id]">Open</a>
@@ -32,7 +55,7 @@
               Next
             </button>
           </mat-action-row>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
       </div>
     </mat-accordion>
   </div>

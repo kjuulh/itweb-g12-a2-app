@@ -11,6 +11,8 @@ export class WorkoutComponent implements OnInit {
   workout: Workout;
   @Input()
   step: number;
+  @Input()
+  i: number;
   @Output()
   subscribe = new EventEmitter();
 

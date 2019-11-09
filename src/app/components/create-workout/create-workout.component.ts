@@ -4,7 +4,6 @@ import { AlertService } from './../../services/alert/alert.service';
 import { AuthenticationService } from 'src/app/services/authentication.service/authentication.service';
 import { Workout } from './../../models/workout/workout';
 import { WorkoutService } from './../../services/workout.service/workout.service';
-import { IExercise } from './../../../../../itweb-g12-a2-api/src/models/exercise.model';
 import { AuthenticationErrorStateMatcher } from './../../helpers/matchers/authentication.error.state.matcher';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Exercise } from './../../models/exercise/exercise';

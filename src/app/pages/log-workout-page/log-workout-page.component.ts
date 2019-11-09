@@ -8,7 +8,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { WorkoutService } from 'src/app/services/workout.service/workout.service';
 import { first } from 'rxjs/operators';
-import { runInThisContext } from 'vm';
 import { Workout } from 'src/app/models/workout/workout';
 import {
   FormBuilder,

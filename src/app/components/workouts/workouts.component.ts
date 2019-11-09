@@ -45,6 +45,11 @@ export class WorkoutsComponent implements OnInit {
             this.workouts = data;
           }
 
+          if (this.workouts.length == 0) {
+            this.loading = false;
+            return;
+          }
+
           this.workouts.forEach((workout, index) => {
             this.exerciseService
               .getByWorkout(workout._id)

@@ -49,6 +49,7 @@ const routes: Routes = [
   {
     path: 'logs',
     component: ShowLogsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

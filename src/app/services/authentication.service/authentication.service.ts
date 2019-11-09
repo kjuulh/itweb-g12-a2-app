@@ -47,8 +47,6 @@ export class AuthenticationService {
       .post<any>(`${environment.API_URL}/register`, userData)
       .pipe(
         map(user => {
-          localStorage.setItem(this.userStorage, JSON.stringify(user));
-          this.currentUserSubject.next(user);
           return user;
         }),
       );
